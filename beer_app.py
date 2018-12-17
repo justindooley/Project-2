@@ -32,7 +32,7 @@ print(data.head())
 
 # Dataframe to JSON
 # data = data.to_json(orient='columns')
-data_all = data.to_json(orient='columns')
+data_all = data.to_json(orient='records')
 data_names = data["Name"].to_json(orient='columns')
 
 # reflect an existing database into a new model
@@ -63,7 +63,7 @@ app = Flask(__name__)
 def welcome():
     """List all available api routes."""
     return (
-        f"Available Routes:<br/>"
+        f"Available Routes:><br/>"
         f"/api/v1.0/names<br/>"
         f"/api/v1.0/all<br/>"
         f"/api/v1.0/beer_dbs"

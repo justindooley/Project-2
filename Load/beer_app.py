@@ -20,33 +20,22 @@ pymysql.install_as_MySQLdb()
 # Database Setup
 #################################################
 
-
 # Create engine
-engine = create_engine("mysql://root:password@localhost/beerdb")
+engine1 = create_engine("mysql://root:password@localhost/beer_db")
+engine2 = create_engine("mysql://root:password@localhost/beer_review_db")
 
 # Query the db to Pandas
-data = pd.read_sql_query("SELECT * FROM beer_data1", con = engine)
+data1 = pd.read_sql_query("SELECT * FROM beer_data", con = engine1)
+data2 = pd.read_sql_query("SELECT * FROM beer_review", con = engine2)
 
 # Test Pandas_df
-print(data.head())
+# print(data2.head())
 
 # Dataframe to JSON
-data_all = data.to_json(orient='records')
-data_names = data["Name"].to_json(orient='columns')
-
-# Create engine
-engine = create_engine("mysql://root:password@localhost/beerdb")
-
-# Query the db to Pandas
-data = pd.read_sql_query("SELECT * FROM beer_data1", con = engine)
-
-# Test Pandas_df
-print(data.head())
-
-# Dataframe to JSON
-data_all = data.to_json(orient='records')
-data_names = data["Name"].to_json(orient='columns')
-
+data_all1 = data1.to_json(orient='records')
+data_names1 = data1["Name"].to_json(orient='columns')
+data_all2 = data2.to_json(orient='records')
+data_names2 = data2["beer_name"].to_json(orient='columns')
 
 #################################################
 # Flask Setup
@@ -61,41 +50,32 @@ app = Flask(__name__)
 def welcome():
     """List all available api routes."""
     return (
-        f"Available Routes:><br/>"
+        f"<h1>Welcome to Our ETL Project Flask App</h1>"
+        f"<br/>"
+        f"Available Routes for BreweryDB Data:<br/>"
         f"/api/v1.0/names<br/>"
         f"/api/v1.0/all<br/>"
-        f"/api/v1.0/beer_dbs"
+        f"<br/>"
+        f"Available Routes for BeerAdvocate Data:<br/>"
+        f"/api/v1.0/names2<br/>"
+        f"/api/v1.0/all2<br/>"
     )
 
 @app.route("/api/v1.0/names")
 def names():
-    """Return a list of all beer_db names"""
-    return data_names
-
-
+    return data_names1
 
 @app.route("/api/v1.0/all")
 def beer_dbs():
-    return data_all
+    return data_all1
 
-# @app.route("/api/v1.0/beer_dbs")
-# def beer_dbs():
-    """Return a list of beer_db data including the name, age, and sex of each beer_db"""
-    # Query all beer_dbs
-    # results = session.query(Beer_db).all()
+@app.route("/api/v1.0/names2")
+def names2():
+    return data_names2
 
-    # Create a dictionary from the row data and append to a list of all_beer_dbs
-    # all_beer_dbs = []
-    # for beer_db in data:
-    #     beer_db_dict = {}
-    #     beer_db_dict["ID"] = data['ID']
-    #     beer_db_dict["Name"] = data['Name']
-    #     beer_db_dict["ABV"] = data['ABV']
-    #     beer_db_dict["Style"] = data['Style']
-    #     beer_db_dict["Is Retired"] = beer_db['Is Retired']
-    #     all_beer_dbs.append(beer_db_dict)
-
-    # return jsonify(all_beer_dbs)
+@app.route("/api/v1.0/all2")
+def data2():
+    return data_all2
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -14,3 +14,9 @@ CREATE DATABASE beer_review_db;
 USE beer_review_db;
 
 SELECT * FROM beer_review;
+
+CREATE DATABASE beer_adv_db;
+
+USE beer_adv_db;
+
+SELECT * FROM beer_advocate_data;

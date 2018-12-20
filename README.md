@@ -1,4 +1,4 @@
 # Project-2
-Beer ETL
+## Beer ETL
 
-## Project Collaborators: Areej, Isaac, Justin, & Sandra
+### Project Collaborators: Areej, Isaac, Justin, & Sandra
